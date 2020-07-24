@@ -14,6 +14,7 @@ const render = require("./lib/htmlRenderer");
 
 let teamMembers = [];
 
+
 const firstQuestion = {
   type: "list",
   message: "Would you like to add a member or generate current team?",
@@ -22,7 +23,7 @@ const firstQuestion = {
 };
 const questionsYourRole = {
   type: "list",
-  message: "What is your Role",
+  message: "What member you want to add?",
   name: "role",
   choices: ["Intern", "Engineer", "Manager"],
 };
@@ -101,7 +102,7 @@ const Questions = {
 // generate and return a block of HTML including templated divs for each employee!
 
 const startApp = () => {
-  addOrFinish();
+  selectRole ()
 };
 
 const addOrFinish = () => {
