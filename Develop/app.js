@@ -6,14 +6,12 @@ const path = require("path");
 const fs = require("fs");
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
-const outputPath = path.join(OUTPUT_DIR, "team.html");
 const render = require("./lib/htmlRenderer");
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
 let teamMembers = [];
-
 
 const firstQuestion = {
   type: "list",
@@ -26,6 +24,12 @@ const questionsYourRole = {
   message: "What member you want to add?",
   name: "role",
   choices: ["Intern", "Engineer", "Manager"],
+};
+
+const fileNameQuestion = {
+  type: "input",
+  message: "Please enter valid file name",
+  name: "fileName",
 };
 
 const Questions = {
@@ -102,7 +106,7 @@ const Questions = {
 // generate and return a block of HTML including templated divs for each employee!
 
 const startApp = () => {
-  selectRole ()
+  selectRole();
 };
 
 const addOrFinish = () => {
@@ -110,7 +114,8 @@ const addOrFinish = () => {
     if (answer.Add === "Add Member") {
       selectRole();
     } else {
-      generateTeam();
+      //generateTeam();
+      getFileName();
     }
   });
 };
@@ -147,17 +152,36 @@ const roleQuestions = (questions, role) => {
   });
 };
 console.log(teamMembers);
-const generateTeam = () => {
-    if (!fs.existsSync(OUTPUT_DIR)) {
-        fs.mkdirSync(OUTPUT_DIR);
+
+const getFileName = () => {
+  inquirer.prompt(fileNameQuestion).then((answer) => {
+    if (answer.fileName) {
+      generateTeam(answer.fileName);
+    } else {
+      getFileName();
     }
-    //fs.writeFileSync(outputPath, render(teamMembers), "utf-8")
-    fs.writeFileSync(outputPath,render(teamMembers, err => {
-        if (err) throw err;
-     
-      }))
-    
+  });
 };
+
+const generateTeam = (fileName) => {
+  const outputPath = path.join(OUTPUT_DIR, fileName + ".html");
+
+  if (!fs.existsSync(OUTPUT_DIR)) {
+    fs.mkdirSync(OUTPUT_DIR);
+  }
+
+  fs.writeFileSync(outputPath, render(teamMembers), (err) => {
+    if (err) {
+      console.log(err);
+      getFileName();
+    }
+  });
+};
+
+// const isFileNameValid = (fileName) => {
+//   if(fileName === )
+// }
+
 startApp();
 // After you have your html, you're now ready to create an HTML file using the HTML
 // returned from the `render` function. Now write it to a file named `team.html` in the
