@@ -1,5 +1,5 @@
 #  Team-Generator
- ![YouTube video](https://youtu.be/R3uUjWPOXM8)
+ [YouTube video](https://youtu.be/R3uUjWPOXM8)
 
 
 
